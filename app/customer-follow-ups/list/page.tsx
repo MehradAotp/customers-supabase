@@ -50,7 +50,12 @@ export default function CustomerFollowUpsList() {
             const { data } = await supabase
               .from("customer")
               .select("id, customer_name");
-            setCustomers(data || []);
+            setCustomers(
+              (data || []).map((c) => ({
+                ...c,
+                customer_name: c.customer_name || "نامشخص",
+              }))
+            );
           } catch (err) {
             console.error("Error fetching customers:", err);
           }

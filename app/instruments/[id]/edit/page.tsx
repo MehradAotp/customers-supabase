@@ -19,6 +19,12 @@ export default function EditInstrument() {
         data: { user },
       } = await supabase.auth.getUser();
 
+      if (!user?.id) {
+        alert("دسترسی غیرمجاز!");
+        router.push("/instruments/list");
+        return;
+      }
+
       const { data: dataUser } = await supabase
         .from("users")
         .select("*")
@@ -52,11 +58,11 @@ export default function EditInstrument() {
 
       setInitialValues({
         ...instrument,
-        has_reagent: instrument.has_reagent ? "true" : "false",
-        national_id: instrument.national_id?.toString() || "",
-        economic_code: instrument.economic_code?.toString() || "",
-        number_personnel: instrument.number_personnel?.toString() || "",
-        registration_code: instrument.registration_code?.toString() || "",
+        has_reagent: instrument.has_reagent ? true : false,
+        national_id: Number(instrument.national_id),
+        economic_code: Number(instrument.economic_code),
+        number_personnel: Number(instrument.number_personnel),
+        registration_code: Number(instrument.registration_code),
         customer_name: instrument.customer_name || "",
         brand_name: instrument.brand_name || "",
         reagent: instrument.reagent || "",
@@ -73,6 +79,12 @@ export default function EditInstrument() {
       const {
         data: { user },
       } = await supabase.auth.getUser();
+
+      if (!user?.id) {
+        alert("دسترسی غیرمجاز!");
+        router.push("/instruments/list");
+        return;
+      }
 
       const { data: dataUser } = await supabase
         .from("users")
@@ -116,6 +128,12 @@ export default function EditInstrument() {
         data: { user },
       } = await supabase.auth.getUser();
 
+      if (!user?.id) {
+        alert("دسترسی غیرمجاز!");
+        router.push("/instruments/list");
+        return;
+      }
+
       const { data: dataUser } = await supabase
         .from("users")
         .select("*")
@@ -137,7 +155,6 @@ export default function EditInstrument() {
           .eq("id", Number(id))
           .eq("user_id", user?.id);
         deleteResult = { data, error };
-        console.log("this is result", deleteResult);
       }
 
       if (deleteResult.error) throw deleteResult.error;

@@ -3,7 +3,6 @@ import { useEffect, useState, useRef } from "react";
 import { createClient } from "@/utils/supabase/client";
 
 import CustomerFollowUpsForm from "@/components/CustomerFollowUps/CustomerFollowUps";
-import { Database } from "@/lib/supabaseTypes";
 import { User } from "@supabase/supabase-js";
 import { CustomerFollowUpInsert } from "@/lib/supabaseTypes";
 
@@ -35,7 +34,7 @@ export default function CustomerFollowUps() {
     const newData = {
       user_id: user.id,
       ...values,
-      customer_id: customerId || values.customer_id,
+      customer_id: customerId ? Number(customerId) : values.customer_id,
     };
 
     const { data, error } = await supabase

@@ -40,7 +40,12 @@ export default function CustomerFollowUpsForm({
     const fetchCustomers = async () => {
       try {
         const data = await getCustomers();
-        setCustomers(data);
+        setCustomers(
+          data.map((c) => ({
+            ...c,
+            customer_name: c.customer_name || "نامشخص",
+          }))
+        );
       } catch (error) {
         console.error("Error fetching customers:", error);
       } finally {

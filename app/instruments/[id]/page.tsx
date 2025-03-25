@@ -84,6 +84,12 @@ export default function InstrumentDetails() {
         data: { user },
       } = await supabase.auth.getUser();
 
+      if (!user?.id) {
+        alert("دسترسی غیرمجاز!");
+        router.push("/instruments/list");
+        return;
+      }
+
       const { data, error } = await supabase
         .from("customer")
         .delete()

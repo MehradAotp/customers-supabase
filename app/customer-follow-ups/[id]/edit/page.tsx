@@ -33,10 +33,8 @@ export default function EditFollowUp() {
 
       setInitialValues({
         ...data,
-        action_date: data.action_date ? new Date(data.action_date) : null,
-        next_follow_up_date: data.next_follow_up_date
-          ? new Date(data.next_follow_up_date)
-          : null,
+        action_date: data.action_date,
+        next_follow_up_date: data.next_follow_up_date,
       });
       setLoading(false);
     };
