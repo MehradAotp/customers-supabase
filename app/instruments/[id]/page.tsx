@@ -26,21 +26,17 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "next/link";
 import { DetailItem } from "@/components/DetaisItem/DetaisItem";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Database } from "@/lib/supabaseTypes";
+import { Customer, CustomerFollowUpRow } from "@/lib/supabaseTypes";
 
 export default function InstrumentDetails() {
   const { id } = useParams();
   const supabase = createClient();
   const router = useRouter();
-  const [data, setData] = useState<
-    Database["public"]["Tables"]["customer"]["Row"] | null
-  >(null);
+  const [data, setData] = useState<Customer | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState(0);
-  const [followUps, setFollowUps] = useState<
-    Database["public"]["Tables"]["customer_follow_ups"]["Row"][]
-  >([]);
+  const [followUps, setFollowUps] = useState<CustomerFollowUpRow[]>([]);
   const [loadingFollowUps, setLoadingFollowUps] = useState(true);
 
   useEffect(() => {

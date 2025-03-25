@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/client";
 
 import "./styles.css";
 import CustomerForm from "@/components/CustomerForm/CustomerForm";
-import { Database } from "@/lib/supabaseTypes";
+import { Database, CustomerInsert } from "@/lib/supabaseTypes";
 import { User } from "@supabase/supabase-js";
 
 export default function Instruments() {
@@ -23,9 +23,7 @@ export default function Instruments() {
     checkUser();
   }, []);
 
-  const onSubmit = async (
-    values: Database["public"]["Tables"]["customer"]["Insert"]
-  ) => {
+  const onSubmit = async (values: CustomerInsert) => {
     if (!user) {
       alert("You need to log in first.");
       return;

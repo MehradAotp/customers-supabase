@@ -1,12 +1,12 @@
 import { Typography } from "@mui/material";
-import { Database } from "@/lib/supabaseTypes";
+import { Customer } from "@/lib/supabaseTypes";
 
 export const DetailItem = ({
   label,
   value,
 }: {
   label: string;
-  value: Database["public"]["Tables"]["customer"]["Row"][keyof Database["public"]["Tables"]["customer"]["Row"]];
+  value: Customer[keyof Customer];
 }) => (
   <div
     style={{

@@ -5,6 +5,7 @@ import { createClient } from "@/utils/supabase/client";
 import CustomerFollowUpsForm from "@/components/CustomerFollowUps/CustomerFollowUps";
 import { Database } from "@/lib/supabaseTypes";
 import { User } from "@supabase/supabase-js";
+import { CustomerFollowUpInsert } from "@/lib/supabaseTypes";
 
 export default function CustomerFollowUps() {
   const supabase = createClient();
@@ -22,9 +23,7 @@ export default function CustomerFollowUps() {
     checkUser();
   }, []);
 
-  const onSubmit = async (
-    values: Database["public"]["Tables"]["customer_follow_ups"]["Insert"]
-  ) => {
+  const onSubmit = async (values: CustomerFollowUpInsert) => {
     if (!user) {
       alert("لطفا ابتدا وارد شوید.");
       return;

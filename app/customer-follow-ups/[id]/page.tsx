@@ -15,15 +15,13 @@ import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Database } from "@/lib/supabaseTypes";
+import { CustomerFollowUpRow } from "@/lib/supabaseTypes";
 
 export default function FollowUpDetails() {
   const { id } = useParams();
   const supabase = createClient();
   const router = useRouter();
-  const [data, setData] = useState<
-    Database["public"]["Tables"]["customer_follow_ups"]["Row"] | null
-  >(null);
+  const [data, setData] = useState<CustomerFollowUpRow | null>(null);
   const [loading, setLoading] = useState(true);
   const [customerName, setCustomerName] = useState("");
 

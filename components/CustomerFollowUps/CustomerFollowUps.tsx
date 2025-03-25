@@ -14,13 +14,14 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { getCustomers } from "@/utils/api/customers";
-import { Database } from "@/lib/supabaseTypes";
+import {
+  CustomerFollowUpInsert,
+  CustomerFollowUpRow,
+} from "@/lib/supabaseTypes";
 
 interface CustomerFormProps {
-  initialValues?: Database["public"]["Tables"]["customer_follow_ups"]["Insert"];
-  onSubmit: (
-    values: Database["public"]["Tables"]["customer_follow_ups"]["Insert"]
-  ) => Promise<void>;
+  initialValues?: CustomerFollowUpInsert;
+  onSubmit: (values: CustomerFollowUpInsert) => Promise<void>;
   mode?: "create" | "edit";
 }
 
@@ -29,8 +30,7 @@ export default function CustomerFollowUpsForm({
   onSubmit,
   mode = "create",
 }: CustomerFormProps) {
-  const [formValues, setFormValues] =
-    useState<Database["public"]["Tables"]["customer_follow_ups"]["Insert"]>();
+  const [formValues, setFormValues] = useState<CustomerFollowUpInsert>();
   const [customers, setCustomers] = useState<
     { id: number; customer_name: string }[]
   >([]);
@@ -51,7 +51,7 @@ export default function CustomerFollowUpsForm({
   }, []);
 
   return (
-    <Form<Database["public"]["Tables"]["customer_follow_ups"]["Insert"]>
+    <Form<CustomerFollowUpInsert>
       onSubmit={onSubmit}
       initialValues={{
         ...initialValues,
@@ -76,10 +76,7 @@ export default function CustomerFollowUpsForm({
             subscription={{ values: true }}
             onChange={({ values }) => {
               setTimeout(
-                () =>
-                  setFormValues(
-                    values as Database["public"]["Tables"]["customer_follow_ups"]["Insert"]
-                  ),
+                () => setFormValues(values as CustomerFollowUpInsert),
                 0
               );
             }}
