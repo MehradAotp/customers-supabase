@@ -27,6 +27,7 @@ import Link from "next/link";
 import { DetailItem } from "@/components/DetaisItem/DetaisItem";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Customer, CustomerFollowUpRow } from "@/lib/supabaseTypes";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function InstrumentDetails() {
   const { id } = useParams();
@@ -113,6 +114,15 @@ export default function InstrumentDetails() {
       maxWidth="lg"
       sx={{ py: 4, direction: "rtl", backgroundColor: "#eee" }}
     >
+      <Button
+        variant="contained"
+        startIcon={<EditIcon />}
+        component={Link}
+        href={`/instruments/${data.id}/edit`}
+        sx={{ mb: 2 }}
+      >
+        ویرایش اطلاعات
+      </Button>
       <Tabs
         value={activeTab}
         onChange={(_, newValue) => setActiveTab(newValue)}

@@ -17,13 +17,11 @@ import {
   Typography,
 } from "@mui/material";
 
-import { Database } from "@/lib/supabaseTypes";
+import { Customer, CustomerInsert } from "@/lib/supabaseTypes";
 
 interface CustomerFormProps {
-  initialValues?: Partial<Database["public"]["Tables"]["customer"]["Row"]>;
-  onSubmit: (
-    values: Database["public"]["Tables"]["customer"]["Insert"]
-  ) => Promise<void>;
+  initialValues?: Partial<Customer>;
+  onSubmit: (values: CustomerInsert) => Promise<void>;
   mode?: "create" | "edit";
 }
 
@@ -35,8 +33,7 @@ export default function CustomerForm({
   const [hasReagent, setHasReagent] = useState(
     initialValues?.has_reagent === true
   );
-  const [formValues, setFormValues] =
-    useState<Database["public"]["Tables"]["customer"]["Insert"]>();
+  const [formValues, setFormValues] = useState<CustomerInsert>();
 
   useEffect(() => {
     if (formValues?.has_reagent !== undefined) {
@@ -45,7 +42,7 @@ export default function CustomerForm({
   }, [formValues?.has_reagent]);
 
   return (
-    <Form<Database["public"]["Tables"]["customer"]["Row"]>
+    <Form<Customer>
       onSubmit={onSubmit}
       initialValues={{
         ...initialValues,
@@ -74,13 +71,7 @@ export default function CustomerForm({
           <FormSpy
             subscription={{ values: true }}
             onChange={({ values }) => {
-              setTimeout(
-                () =>
-                  setFormValues(
-                    values as Database["public"]["Tables"]["customer"]["Insert"]
-                  ),
-                0
-              );
+              setTimeout(() => setFormValues(values as CustomerInsert), 0);
             }}
           />
           <Grid2
@@ -90,8 +81,8 @@ export default function CustomerForm({
               alignItems: "center",
               justifyContent: "center",
               display: "flex",
-
-              backgroundColor: "#F5F5F5",
+              backgroundColor: "#fff",
+              padding: "20px",
             }}
           >
             <Grid2 size={12}>

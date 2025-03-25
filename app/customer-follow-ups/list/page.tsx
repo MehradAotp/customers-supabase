@@ -18,13 +18,11 @@ import {
   Skeleton,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Database } from "@/lib/supabaseTypes";
+import { CustomerFollowUpRow } from "@/lib/supabaseTypes";
 
 export default function CustomerFollowUpsList() {
   const supabase = createClient();
-  const [followUps, setFollowUps] = useState<
-    Database["public"]["Tables"]["customer_follow_ups"]["Row"][]
-  >([]);
+  const [followUps, setFollowUps] = useState<CustomerFollowUpRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [customers, setCustomers] = useState<

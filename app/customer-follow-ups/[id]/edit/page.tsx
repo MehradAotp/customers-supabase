@@ -3,15 +3,18 @@ import { useParams, useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
 import CustomerFollowUpsForm from "@/components/CustomerFollowUps/CustomerFollowUps";
-import { Database } from "@/lib/supabaseTypes";
+import {
+  CustomerFollowUpInsert,
+  CustomerFollowUpRow,
+  Database,
+} from "@/lib/supabaseTypes";
 
 export default function EditFollowUp() {
   const { id } = useParams();
   const supabase = createClient();
   const router = useRouter();
-  const [initialValues, setInitialValues] = useState<
-    Database["public"]["Tables"]["customer_follow_ups"]["Row"] | null
-  >(null);
+  const [initialValues, setInitialValues] =
+    useState<CustomerFollowUpRow | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -41,9 +44,7 @@ export default function EditFollowUp() {
     fetchData();
   }, [id]);
 
-  const handleSubmit = async (
-    values: Database["public"]["Tables"]["customer_follow_ups"]["Insert"]
-  ) => {
+  const handleSubmit = async (values: CustomerFollowUpInsert) => {
     try {
       const { error } = await supabase
         .from("customer_follow_ups")

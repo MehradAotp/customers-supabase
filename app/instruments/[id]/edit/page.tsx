@@ -3,16 +3,14 @@ import { useParams, useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
 import CustomerForm from "@/components/CustomerForm/CustomerForm";
-import { Database } from "@/lib/supabaseTypes";
+import { Customer, CustomerInsert } from "@/lib/supabaseTypes";
 
 export default function EditInstrument() {
   const { id } = useParams();
   console.log("this is id", id);
   const supabase = createClient();
   const router = useRouter();
-  const [initialValues, setInitialValues] = useState<
-    Database["public"]["Tables"]["customer"]["Row"] | null
-  >(null);
+  const [initialValues, setInitialValues] = useState<Customer | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -70,9 +68,7 @@ export default function EditInstrument() {
     fetchData();
   }, [id]);
 
-  const handleSubmit = async (
-    values: Database["public"]["Tables"]["customer"]["Insert"]
-  ) => {
+  const handleSubmit = async (values: CustomerInsert) => {
     try {
       const {
         data: { user },
