@@ -378,7 +378,7 @@ export default function CustomerForm({
                   />
                 </Grid2>
 
-                <Grid2 size={7}>
+                <Grid2 size={8}>
                   <Box
                     sx={{
                       display: "flex",
