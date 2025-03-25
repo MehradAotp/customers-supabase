@@ -17,26 +17,13 @@ import {
   Typography,
 } from "@mui/material";
 
-export interface FormValues {
-  customer_type: string;
-  national_id: number;
-  how_introduction: string;
-  customer_name: string;
-  brand_name: string;
-  has_reagent: string;
-  organization_model: string;
-  economic_code: number;
-  number_personnel: number;
-  registration_code: number;
-  name_parent_organization: string;
-  organization_type: string;
-  type_activity: string;
-  reagent: string;
-}
+import { Database } from "@/lib/supabaseTypes";
 
 interface CustomerFormProps {
-  initialValues?: FormValues;
-  onSubmit: (values: FormValues) => Promise<void>;
+  initialValues?: Partial<Database["public"]["Tables"]["customer"]["Row"]>;
+  onSubmit: (
+    values: Database["public"]["Tables"]["customer"]["Insert"]
+  ) => Promise<void>;
   mode?: "create" | "edit";
 }
 
@@ -46,23 +33,24 @@ export default function CustomerForm({
   mode = "create",
 }: CustomerFormProps) {
   const [hasReagent, setHasReagent] = useState(
-    initialValues?.has_reagent === "true"
+    initialValues?.has_reagent === true
   );
-  const [formValues, setFormValues] = useState<FormValues>();
+  const [formValues, setFormValues] =
+    useState<Database["public"]["Tables"]["customer"]["Insert"]>();
 
   useEffect(() => {
     if (formValues?.has_reagent !== undefined) {
-      setHasReagent(formValues.has_reagent === "true");
+      setHasReagent(formValues.has_reagent === true);
     }
   }, [formValues?.has_reagent]);
 
   return (
-    <Form<FormValues>
+    <Form<Database["public"]["Tables"]["customer"]["Row"]>
       onSubmit={onSubmit}
       initialValues={{
         ...initialValues,
         customer_type: initialValues?.customer_type || "حقیقی",
-        has_reagent: initialValues?.has_reagent || "false",
+        has_reagent: initialValues?.has_reagent || false,
         organization_model: initialValues?.organization_model || "مدل 1",
         how_introduction: initialValues?.how_introduction || "آشنایی 1",
         name_parent_organization:
@@ -86,7 +74,13 @@ export default function CustomerForm({
           <FormSpy
             subscription={{ values: true }}
             onChange={({ values }) => {
-              setTimeout(() => setFormValues(values as FormValues), 0);
+              setTimeout(
+                () =>
+                  setFormValues(
+                    values as Database["public"]["Tables"]["customer"]["Insert"]
+                  ),
+                0
+              );
             }}
           />
           <Grid2
@@ -240,16 +234,13 @@ export default function CustomerForm({
                         <InputLabel>معرف دارد؟</InputLabel>
                         <Select
                           {...input}
-                          suppressHydrationWarning
-                          label="معرف دارد؟"
-                          variant="filled"
+                          value={input.value ? "true" : "false"}
+                          onChange={(e) =>
+                            input.onChange(e.target.value === "true")
+                          }
                         >
-                          <MenuItem value="true" sx={{ direction: "rtl" }}>
-                            بله
-                          </MenuItem>
-                          <MenuItem value="false" sx={{ direction: "rtl" }}>
-                            خیر
-                          </MenuItem>
+                          <MenuItem value="true">بله</MenuItem>
+                          <MenuItem value="false">خیر</MenuItem>
                         </Select>
                       </FormControl>
                     )}

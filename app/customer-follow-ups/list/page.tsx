@@ -18,22 +18,13 @@ import {
   Skeleton,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-
-export interface CustomerFollowUp {
-  id: string;
-  created_at: string;
-  contract: string;
-  contract_type: string;
-  action_date: string;
-  next_follow_up_date: string;
-  customer_id: string;
-  interface_name: string;
-  tracking_type: string;
-}
+import { Database } from "@/lib/supabaseTypes";
 
 export default function CustomerFollowUpsList() {
   const supabase = createClient();
-  const [followUps, setFollowUps] = useState<CustomerFollowUp[]>([]);
+  const [followUps, setFollowUps] = useState<
+    Database["public"]["Tables"]["customer_follow_ups"]["Row"][]
+  >([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [customers, setCustomers] = useState<
@@ -197,9 +188,8 @@ export default function CustomerFollowUpsList() {
                       {item.contract}
                     </TableCell>
                     <TableCell align="right" sx={{ color: "#00FF88" }}>
-                      {customers.find(
-                        (c) => c.id === parseInt(item.customer_id)
-                      )?.customer_name || "نامشخص"}
+                      {customers.find((c) => c.id === item.customer_id)
+                        ?.customer_name || "نامشخص"}
                     </TableCell>
                     <TableCell align="right" sx={{ color: "#00FF88" }}>
                       {item.interface_name}
@@ -211,12 +201,23 @@ export default function CustomerFollowUpsList() {
                       {item.tracking_type}
                     </TableCell>
                     <TableCell align="right" sx={{ color: "#00FF88" }}>
-                      {new Date(item.action_date).toLocaleDateString("fa-IR")}
+                      {item.created_at
+                        ? new Date(item.created_at).toLocaleDateString(
+                            "fa-IR",
+                            {
+                              year: "numeric",
+                              month: "2-digit",
+                              day: "2-digit",
+                            }
+                          )
+                        : "---"}
                     </TableCell>
                     <TableCell align="right" sx={{ color: "#00FF88" }}>
-                      {new Date(item.next_follow_up_date).toLocaleDateString(
-                        "fa-IR"
-                      )}
+                      {item.next_follow_up_date
+                        ? new Date(item.next_follow_up_date).toLocaleDateString(
+                            "fa-IR"
+                          )
+                        : "---"}
                     </TableCell>
                   </TableRow>
                 ))}

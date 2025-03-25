@@ -15,29 +15,13 @@ import {
   IconButton,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-
-export interface Customer {
-  id: string;
-  created_at: string;
-  customer_type: string;
-  national_id: number;
-  how_introduction: string;
-  customer_name: string;
-  brand_name: string;
-  has_reagent: boolean;
-  organization_model: string;
-  economic_code: number;
-  number_personnel: number;
-  registration_code: number;
-  name_parent_organization: string;
-  organization_type: string;
-  type_activity: string;
-  reagent: string;
-}
+import { Database } from "@/lib/supabaseTypes";
 
 export default function InstrumentsList() {
   const supabase = createClient();
-  const [instruments, setInstruments] = useState<Customer[]>([]);
+  const [instruments, setInstruments] = useState<
+    Database["public"]["Tables"]["customer"]["Row"][]
+  >([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -180,11 +164,13 @@ export default function InstrumentsList() {
                   align="right"
                   sx={{ direction: "rtl", color: "#00FF88" }}
                 >
-                  {new Date(item.created_at).toLocaleDateString("fa-IR", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
+                  {item.created_at
+                    ? new Date(item.created_at).toLocaleDateString("fa-IR", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })
+                    : "---"}
                 </TableCell>
               </TableRow>
             ))}

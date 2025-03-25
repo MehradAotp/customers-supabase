@@ -2,7 +2,6 @@
 import { useParams, useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
-import { Customer } from "../list/page";
 import {
   Container,
   Typography,
@@ -23,23 +22,25 @@ import {
   TableCell,
   CircularProgress,
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "next/link";
 import { DetailItem } from "@/components/DetaisItem/DetaisItem";
-import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import CustomerFollowUpsList from "@/app/customer-follow-ups/list/page";
+import { Database } from "@/lib/supabaseTypes";
 
 export default function InstrumentDetails() {
   const { id } = useParams();
   const supabase = createClient();
   const router = useRouter();
-  const [data, setData] = useState<Customer | null>(null);
+  const [data, setData] = useState<
+    Database["public"]["Tables"]["customer"]["Row"] | null
+  >(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState(0);
-  const [followUps, setFollowUps] = useState<any[]>([]);
+  const [followUps, setFollowUps] = useState<
+    Database["public"]["Tables"]["customer_follow_ups"]["Row"][]
+  >([]);
   const [loadingFollowUps, setLoadingFollowUps] = useState(true);
 
   useEffect(() => {
@@ -273,13 +274,15 @@ export default function InstrumentDetails() {
               sx={{ color: "#fff" }}
             >
               تاریخ ثبت:{" "}
-              {new Date(data.created_at).toLocaleDateString("fa-IR", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
+              {data.created_at
+                ? new Date(data.created_at).toLocaleDateString("fa-IR", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })
+                : "---"}
             </Typography>
 
             <Button
@@ -404,9 +407,11 @@ export default function InstrumentDetails() {
                           </IconButton>
                         </TableCell>
                         <TableCell sx={{ color: "#fff" }}>
-                          {new Date(
-                            followUp.next_follow_up_date
-                          ).toLocaleDateString("fa-IR")}
+                          {followUp.next_follow_up_date
+                            ? new Date(
+                                followUp.next_follow_up_date
+                              ).toLocaleDateString("fa-IR")
+                            : "---"}
                         </TableCell>
                         <TableCell sx={{ color: "#fff" }}>
                           {followUp.tracking_type}

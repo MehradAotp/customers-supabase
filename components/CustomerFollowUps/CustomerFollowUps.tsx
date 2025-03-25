@@ -14,22 +14,13 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { getCustomers } from "@/utils/api/customers";
-
-export interface CustomerFollowUpFormValues {
-  contract: string;
-  customer_id: number;
-  contract_type: string;
-  interface_name: string;
-  tracking_type: string;
-  action_date: Date;
-  follow_up_description: string;
-  next_follow_up_type: string;
-  next_follow_up_date: Date;
-}
+import { Database } from "@/lib/supabaseTypes";
 
 interface CustomerFormProps {
-  initialValues?: CustomerFollowUpFormValues;
-  onSubmit: (values: CustomerFollowUpFormValues) => Promise<void>;
+  initialValues?: Database["public"]["Tables"]["customer_follow_ups"]["Insert"];
+  onSubmit: (
+    values: Database["public"]["Tables"]["customer_follow_ups"]["Insert"]
+  ) => Promise<void>;
   mode?: "create" | "edit";
 }
 
@@ -38,7 +29,8 @@ export default function CustomerFollowUpsForm({
   onSubmit,
   mode = "create",
 }: CustomerFormProps) {
-  const [formValues, setFormValues] = useState<CustomerFollowUpFormValues>();
+  const [formValues, setFormValues] =
+    useState<Database["public"]["Tables"]["customer_follow_ups"]["Insert"]>();
   const [customers, setCustomers] = useState<
     { id: number; customer_name: string }[]
   >([]);
@@ -59,12 +51,13 @@ export default function CustomerFollowUpsForm({
   }, []);
 
   return (
-    <Form<CustomerFollowUpFormValues>
+    <Form<Database["public"]["Tables"]["customer_follow_ups"]["Insert"]>
       onSubmit={onSubmit}
       initialValues={{
         ...initialValues,
-        action_date: initialValues?.action_date || new Date(),
-        next_follow_up_date: initialValues?.next_follow_up_date || new Date(),
+        action_date: initialValues?.action_date || new Date().toISOString(),
+        next_follow_up_date:
+          initialValues?.next_follow_up_date || new Date().toISOString(),
         next_follow_up_type: initialValues?.next_follow_up_type || "",
         follow_up_description: initialValues?.follow_up_description || "",
         contract: initialValues?.contract || "",
@@ -83,7 +76,10 @@ export default function CustomerFollowUpsForm({
             subscription={{ values: true }}
             onChange={({ values }) => {
               setTimeout(
-                () => setFormValues(values as CustomerFollowUpFormValues),
+                () =>
+                  setFormValues(
+                    values as Database["public"]["Tables"]["customer_follow_ups"]["Insert"]
+                  ),
                 0
               );
             }}
@@ -173,11 +169,18 @@ export default function CustomerFollowUpsForm({
                     {({ input }) => (
                       <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DatePicker
-                          label="تاریخ اقدام"
-                          value={input.value}
-                          onChange={input.onChange}
-                          slots={{ textField: TextField }}
-                          slotProps={{ textField: { fullWidth: true } }}
+                          {...input}
+                          value={input.value ? new Date(input.value) : null}
+                          onChange={(date) =>
+                            input.onChange(date?.toISOString())
+                          }
+                          format="yyyy/MM/dd"
+                          sx={{
+                            width: "100%",
+                            "& .MuiInputBase-root": {
+                              direction: "ltr",
+                            },
+                          }}
                         />
                       </LocalizationProvider>
                     )}
@@ -215,11 +218,19 @@ export default function CustomerFollowUpsForm({
                     {({ input }) => (
                       <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DatePicker
+                          {...input}
+                          value={input.value ? new Date(input.value) : null}
+                          onChange={(date) =>
+                            input.onChange(date?.toISOString())
+                          }
+                          format="yyyy/MM/dd"
                           label="تاریخ پیگیری بعدی"
-                          value={input.value}
-                          onChange={input.onChange}
-                          slots={{ textField: TextField }}
-                          slotProps={{ textField: { fullWidth: true } }}
+                          sx={{
+                            width: "100%",
+                            "& .MuiInputBase-root": {
+                              direction: "ltr",
+                            },
+                          }}
                         />
                       </LocalizationProvider>
                     )}

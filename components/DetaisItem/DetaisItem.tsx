@@ -1,6 +1,13 @@
 import { Typography } from "@mui/material";
+import { Database } from "@/lib/supabaseTypes";
 
-export const DetailItem = ({ label, value }: { label: string; value: any }) => (
+export const DetailItem = ({
+  label,
+  value,
+}: {
+  label: string;
+  value: Database["public"]["Tables"]["customer"]["Row"][keyof Database["public"]["Tables"]["customer"]["Row"]];
+}) => (
   <div
     style={{
       marginBottom: "1.5rem",

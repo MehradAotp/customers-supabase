@@ -2,13 +2,13 @@
 import { useEffect, useState, useRef } from "react";
 import { createClient } from "@/utils/supabase/client";
 
-import CustomerFollowUpsForm, {
-  CustomerFollowUpFormValues,
-} from "@/components/CustomerFollowUps/CustomerFollowUps";
+import CustomerFollowUpsForm from "@/components/CustomerFollowUps/CustomerFollowUps";
+import { Database } from "@/lib/supabaseTypes";
+import { User } from "@supabase/supabase-js";
 
 export default function CustomerFollowUps() {
   const supabase = createClient();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
 
@@ -22,7 +22,9 @@ export default function CustomerFollowUps() {
     checkUser();
   }, []);
 
-  const onSubmit = async (values: CustomerFollowUpFormValues) => {
+  const onSubmit = async (
+    values: Database["public"]["Tables"]["customer_follow_ups"]["Insert"]
+  ) => {
     if (!user) {
       alert("لطفا ابتدا وارد شوید.");
       return;
@@ -62,10 +64,10 @@ export default function CustomerFollowUps() {
         contract_type: "",
         interface_name: "",
         tracking_type: "",
-        action_date: new Date(),
+        action_date: new Date().toISOString(),
         follow_up_description: "",
         next_follow_up_type: "",
-        next_follow_up_date: new Date(),
+        next_follow_up_date: new Date().toISOString(),
       }}
     />
   );

@@ -15,12 +15,15 @@ import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { Database } from "@/lib/supabaseTypes";
 
 export default function FollowUpDetails() {
   const { id } = useParams();
   const supabase = createClient();
   const router = useRouter();
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<
+    Database["public"]["Tables"]["customer_follow_ups"]["Row"] | null
+  >(null);
   const [loading, setLoading] = useState(true);
   const [customerName, setCustomerName] = useState("");
 
@@ -158,13 +161,17 @@ export default function FollowUpDetails() {
           <Grid2 size={6}>
             <Typography>
               <strong>تاریخ اقدام:</strong>{" "}
-              {new Date(data.action_date).toLocaleDateString("fa-IR")}
+              {data.action_date
+                ? new Date(data.action_date).toLocaleDateString("fa-IR")
+                : "---"}
             </Typography>
           </Grid2>
           <Grid2 size={6}>
             <Typography>
               <strong>تاریخ پیگیری بعدی:</strong>{" "}
-              {new Date(data.next_follow_up_date).toLocaleDateString("fa-IR")}
+              {data.next_follow_up_date
+                ? new Date(data.next_follow_up_date).toLocaleDateString("fa-IR")
+                : "---"}
             </Typography>
           </Grid2>
         </Grid2>

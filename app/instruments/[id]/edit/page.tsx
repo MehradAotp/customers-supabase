@@ -2,15 +2,17 @@
 import { useParams, useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
-import { FormValues } from "../../page";
 import CustomerForm from "@/components/CustomerForm/CustomerForm";
+import { Database } from "@/lib/supabaseTypes";
 
 export default function EditInstrument() {
   const { id } = useParams();
   console.log("this is id", id);
   const supabase = createClient();
   const router = useRouter();
-  const [initialValues, setInitialValues] = useState<FormValues | null>(null);
+  const [initialValues, setInitialValues] = useState<
+    Database["public"]["Tables"]["customer"]["Row"] | null
+  >(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -68,7 +70,9 @@ export default function EditInstrument() {
     fetchData();
   }, [id]);
 
-  const handleSubmit = async (values: FormValues) => {
+  const handleSubmit = async (
+    values: Database["public"]["Tables"]["customer"]["Insert"]
+  ) => {
     try {
       const {
         data: { user },
@@ -93,8 +97,8 @@ export default function EditInstrument() {
           economic_code: Number(values.economic_code),
           number_personnel: Number(values.number_personnel),
           registration_code: Number(values.registration_code),
-          has_reagent: values.has_reagent === "true",
-          reagent: values.has_reagent === "true" ? values.reagent : null,
+          has_reagent: values.has_reagent === true,
+          reagent: values.has_reagent === true ? values.reagent : null,
         })
         .match(matchCondition);
 

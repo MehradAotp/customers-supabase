@@ -4,27 +4,12 @@ import { createClient } from "@/utils/supabase/client";
 
 import "./styles.css";
 import CustomerForm from "@/components/CustomerForm/CustomerForm";
-
-export interface FormValues {
-  customer_type: string;
-  national_id: number;
-  how_introduction: string;
-  customer_name: string;
-  brand_name: string;
-  has_reagent: string;
-  organization_model: string;
-  economic_code: number;
-  number_personnel: number;
-  registration_code: number;
-  name_parent_organization: string;
-  organization_type: string;
-  type_activity: string;
-  reagent: string;
-}
+import { Database } from "@/lib/supabaseTypes";
+import { User } from "@supabase/supabase-js";
 
 export default function Instruments() {
   const supabase = createClient();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
 
@@ -38,28 +23,22 @@ export default function Instruments() {
     checkUser();
   }, []);
 
-  const onSubmit = async (values: FormValues) => {
+  const onSubmit = async (
+    values: Database["public"]["Tables"]["customer"]["Insert"]
+  ) => {
     if (!user) {
       alert("You need to log in first.");
       return;
     }
-    const newData = {
+    const newData: Database["public"]["Tables"]["customer"]["Insert"] = {
       user_id: user.id,
       ...values,
-      national_id: values.national_id
-        ? parseInt(values.national_id.toString(), 10)
-        : null,
-      economic_code: values.economic_code
-        ? parseInt(values.economic_code.toString(), 10)
-        : null,
-      number_personnel: values.number_personnel
-        ? parseInt(values.number_personnel.toString(), 10)
-        : null,
-      registration_code: values.registration_code
-        ? parseInt(values.registration_code.toString(), 10)
-        : null,
-      has_reagent: values.has_reagent === "true",
-      reagent: values.has_reagent === "true" ? values.reagent : null,
+      national_id: Number(values.national_id) || null,
+      economic_code: Number(values.economic_code) || null,
+      number_personnel: Number(values.number_personnel) || null,
+      registration_code: Number(values.registration_code) || null,
+      has_reagent: Boolean(values.has_reagent),
+      reagent: values.has_reagent ? values.reagent : null,
     };
 
     console.log("this is the new data", newData);
@@ -86,7 +65,7 @@ export default function Instruments() {
       onSubmit={onSubmit}
       initialValues={{
         customer_type: "حقیقی",
-        has_reagent: "false",
+        has_reagent: false,
         national_id: 0,
         customer_name: "",
         brand_name: "",
@@ -99,6 +78,8 @@ export default function Instruments() {
         name_parent_organization: "سازمان 1",
         organization_type: "خصوصی",
         type_activity: "بازرگانی",
+        created_at: new Date().toISOString(),
+        user_id: user.id,
       }}
     />
   );
