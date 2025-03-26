@@ -1,24 +1,25 @@
 "use client";
-import { useEffect, useState } from "react";
+import { CustomerFollowUpRow } from "@/lib/supabaseTypes";
 import { createClient } from "@/utils/supabase/client";
-import Link from "next/link";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import {
+  Box,
+  Button,
+  CircularProgress,
+  IconButton,
+  Paper,
+  Skeleton,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
   Typography,
-  Container,
-  IconButton,
-  Box,
-  CircularProgress,
-  Skeleton,
 } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import { CustomerFollowUpRow } from "@/lib/supabaseTypes";
+import { PageContainer } from "@toolpad/core/PageContainer";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function CustomerFollowUpsList() {
   const supabase = createClient();
@@ -93,28 +94,17 @@ export default function CustomerFollowUpsList() {
     );
 
   return (
-    <Container
-      maxWidth="xl"
-      sx={{
-        py: 4,
-        direction: "rtl",
-        background: "#eee",
-        minHeight: "100vh",
-      }}
-    >
-      <Typography
-        variant="h3"
-        sx={{
-          color: "primary.main",
-          mb: 4,
-          textAlign: "center",
-          fontWeight: "bold",
-          textShadow: "0 2px 8px rgba(0, 255, 136, 0.2)",
-        }}
-      >
-        لیست پیگیری‌ها
-      </Typography>
-
+    <PageContainer title="لیست پیگیری‌ها">
+      <div>
+        <Button
+          component={Link}
+          variant="contained"
+          color="primary"
+          href={"/customer-follow-ups"}
+        >
+          فرم ثبت پیگیری
+        </Button>
+      </div>
       <TableContainer
         component={Paper}
         sx={{
@@ -227,6 +217,6 @@ export default function CustomerFollowUpsList() {
           </TableBody>
         </Table>
       </TableContainer>
-    </Container>
+    </PageContainer>
   );
 }

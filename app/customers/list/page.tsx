@@ -13,13 +13,15 @@ import {
   Typography,
   Container,
   IconButton,
+  Button,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Database } from "@/lib/supabaseTypes";
+import { PageContainer } from "@toolpad/core/PageContainer";
 
-export default function InstrumentsList() {
+export default function CustomersList() {
   const supabase = createClient();
-  const [instruments, setInstruments] = useState<
+  const [customers, setCustomers] = useState<
     Database["public"]["Tables"]["customer"]["Row"][]
   >([]);
   const [loading, setLoading] = useState(true);
@@ -39,7 +41,7 @@ export default function InstrumentsList() {
           .order("created_at", { ascending: false });
 
         if (error) throw error;
-        setInstruments(data || []);
+        setCustomers(data || []);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unknown error");
       } finally {
@@ -54,28 +56,17 @@ export default function InstrumentsList() {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <Container
-      maxWidth="xl"
-      sx={{
-        py: 4,
-        direction: "rtl",
-        background: "#eee",
-        minHeight: "100vh",
-        backgroundColor: "#eee",
-      }}
-    >
-      <Typography
-        variant="h3"
-        sx={{
-          color: "primary.main",
-          mb: 4,
-          textAlign: "center",
-          fontWeight: "bold",
-          textShadow: "0 2px 8px rgba(0, 255, 136, 0.2)",
-        }}
-      >
-        لیست مشتریان
-      </Typography>
+    <PageContainer title="لیست مشتریان">
+      <div>
+        <Button
+          component={Link}
+          variant="contained"
+          color="primary"
+          href={"/customers"}
+        >
+          فرم ثبت مشتری
+        </Button>
+      </div>
 
       <TableContainer
         component={Paper}
@@ -134,7 +125,7 @@ export default function InstrumentsList() {
           </TableHead>
 
           <TableBody>
-            {instruments.map((item) => (
+            {customers.map((item) => (
               <TableRow
                 key={item.id}
                 hover
@@ -143,7 +134,7 @@ export default function InstrumentsList() {
                 <TableCell align="right">
                   <IconButton
                     component={Link}
-                    href={`/instruments/${item.id}`}
+                    href={`/customers/${item.id}`}
                     color="primary"
                     aria-label="مشاهده جزئیات"
                   >
@@ -177,6 +168,6 @@ export default function InstrumentsList() {
           </TableBody>
         </Table>
       </TableContainer>
-    </Container>
+    </PageContainer>
   );
 }

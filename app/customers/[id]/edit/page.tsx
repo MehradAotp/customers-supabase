@@ -21,7 +21,7 @@ export default function EditInstrument() {
 
       if (!user?.id) {
         alert("دسترسی غیرمجاز!");
-        router.push("/instruments/list");
+        router.push("/customers/list");
         return;
       }
 
@@ -52,7 +52,7 @@ export default function EditInstrument() {
 
       if (!instrument) {
         alert("دسترسی غیرمجاز!");
-        router.push("/instruments/list");
+        router.push("/customers/list");
         return;
       }
 
@@ -82,7 +82,7 @@ export default function EditInstrument() {
 
       if (!user?.id) {
         alert("دسترسی غیرمجاز!");
-        router.push("/instruments/list");
+        router.push("/customers/list");
         return;
       }
 
@@ -113,7 +113,7 @@ export default function EditInstrument() {
       if (error) throw error;
 
       alert("تغییرات با موفقیت ذخیره شد!");
-      router.push(`/instruments/${id}`);
+      router.push(`/customers/${id}`);
     } catch (err) {
       console.error("Update Error:", err);
       alert("خطا در ذخیره تغییرات!");
@@ -130,7 +130,7 @@ export default function EditInstrument() {
 
       if (!user?.id) {
         alert("دسترسی غیرمجاز!");
-        router.push("/instruments/list");
+        router.push("/customers/list");
         return;
       }
 
@@ -160,7 +160,7 @@ export default function EditInstrument() {
       if (deleteResult.error) throw deleteResult.error;
 
       alert("با موفقیت حذف شد!");
-      router.push("/instruments/list");
+      router.push("/customers/list");
     } catch (err) {
       console.error("Delete Error:", err);
       alert("خطا در حذف اطلاعات!");

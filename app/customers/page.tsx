@@ -7,7 +7,7 @@ import CustomerForm from "@/components/CustomerForm/CustomerForm";
 import { Database, CustomerInsert } from "@/lib/supabaseTypes";
 import { User } from "@supabase/supabase-js";
 
-export default function Instruments() {
+export default function Customers() {
   const supabase = createClient();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);

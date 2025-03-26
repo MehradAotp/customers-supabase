@@ -86,7 +86,7 @@ export default function InstrumentDetails() {
 
       if (!user?.id) {
         alert("دسترسی غیرمجاز!");
-        router.push("/instruments/list");
+        router.push("/customers/list");
         return;
       }
 
@@ -100,7 +100,7 @@ export default function InstrumentDetails() {
       if (error) throw new Error(error.message);
 
       alert("با موفقیت حذف شد!");
-      router.push("/instruments/list");
+      router.push("/customers/list");
       router.refresh();
     } catch (err) {
       console.error("Delete Error Details:", err);
@@ -124,7 +124,7 @@ export default function InstrumentDetails() {
         variant="contained"
         startIcon={<EditIcon />}
         component={Link}
-        href={`/instruments/${data.id}/edit`}
+        href={`/customers/${data.id}/edit`}
         sx={{ mb: 2 }}
       >
         ویرایش اطلاعات
