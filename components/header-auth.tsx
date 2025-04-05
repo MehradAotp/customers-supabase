@@ -14,56 +14,64 @@ export default async function AuthButton() {
 
   if (!hasEnvVars) {
     return (
-      <>
-        <div className="flex gap-4 items-center">
-          <div>
-            <Badge
-              variant={"default"}
-              className="font-normal pointer-events-none"
-            >
-              Please update .env.local file with anon key and url
-            </Badge>
-          </div>
-          <div className="flex gap-2">
-            <Button
-              asChild
-              size="sm"
-              variant={"outline"}
-              disabled
-              className="opacity-75 cursor-none pointer-events-none"
-            >
-              <Link href="/sign-in">Sign in</Link>
-            </Button>
-            <Button
-              asChild
-              size="sm"
-              variant={"default"}
-              disabled
-              className="opacity-75 cursor-none pointer-events-none"
-            >
-              <Link href="/sign-up">Sign up</Link>
-            </Button>
-          </div>
+      <div className="flex gap-4 items-center" dir="rtl">
+        <div>
+          <Badge
+            variant={"default"}
+            className="font-normal pointer-events-none"
+          >
+            لطفاً فایل .env.local را با anon key و url کامل کنید
+          </Badge>
         </div>
-      </>
+        <div className="flex gap-2">
+          <Button
+            asChild
+            size="sm"
+            variant={"outline"}
+            disabled
+            className="opacity-75 cursor-none pointer-events-none"
+          >
+            <Link href="/sign-in">ورود</Link>
+          </Button>
+          <Button
+            asChild
+            size="sm"
+            variant={"default"}
+            disabled
+            className="opacity-75 cursor-none pointer-events-none"
+          >
+            <Link href="/sign-up">ثبت‌نام</Link>
+          </Button>
+        </div>
+      </div>
     );
   }
+
   return user ? (
-    <div className="flex items-center gap-4">
-      Hey, {user.email}!
+    <div className="flex items-center gap-4" dir="rtl">
+      سلام، {user.email}
       <form action={signOutAction}>
-        <Button type="submit" variant={"outline"}>
-          Sign out
+        <Button
+          type="submit"
+          variant={"outline"}
+          className="bg-black text-white dark:bg-white dark:text-black"
+        >
+          خروج
         </Button>
       </form>
     </div>
   ) : (
-    <div className="flex gap-2">
-      <Button asChild size="sm" variant={"outline"}>
-        <Link href="/sign-in">Sign in</Link>
+    <div className="flex gap-2" dir="rtl">
+      <Button
+        asChild
+        size="sm"
+        variant={"outline"}
+        className="bg-black text-white dark:bg-white dark:text-black"
+      >
+        <Link href="/sign-in">ورود</Link>
       </Button>
       <Button asChild size="sm" variant={"default"}>
-        <Link href="/sign-up">Sign up</Link>
+        <Link href="/sign-up">ثبت‌نام</Link>
       </Button>
     </div>
   );

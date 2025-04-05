@@ -10,14 +10,16 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Typography,
-  Container,
   IconButton,
   Button,
+  Typography,
+  Box,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Database } from "@/lib/supabaseTypes";
 import { PageContainer } from "@toolpad/core/PageContainer";
+import ErrorMessage from "@/components/ErrorMessage/ErrorMessage";
+import Loading from "@/components/Loading/Loading";
 
 export default function CustomersList() {
   const supabase = createClient();
@@ -33,7 +35,7 @@ export default function CustomersList() {
         const {
           data: { user },
         } = await supabase.auth.getUser();
-        if (!user) throw new Error("Not authenticated");
+        if (!user) throw new Error("لطفا وارد شوید");
 
         const { data, error } = await supabase
           .from("customer")
@@ -52,12 +54,14 @@ export default function CustomersList() {
     fetchData();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
-
+  if (loading) return <Loading />;
+  if (error) return <ErrorMessage message={`خطا: ${error}`} />;
   return (
-    <PageContainer title="لیست مشتریان">
-      <div>
+    <PageContainer
+      title="لیست مشتریان"
+      sx={{ direction: "rtl", marginTop: "50px" }}
+    >
+      <div dir="rtl" style={{ marginBottom: "1rem" }}>
         <Button
           component={Link}
           variant="contained"
@@ -71,20 +75,26 @@ export default function CustomersList() {
       <TableContainer
         component={Paper}
         sx={{
-          bgcolor: "rgba(0, 30, 60, 0.9)",
-          backdropFilter: "blur(16px)",
-          border: "1px solid rgba(255, 255, 255, 0.12)",
+          direction: "rtl",
+          "& .MuiTable-root": {
+            direction: "rtl",
+          },
+          "& .MuiTableCell-root": {
+            textAlign: "right",
+            fontFamily: "'Vazirmatn', sans-serif",
+          },
         }}
       >
         <Table
           sx={{
+            "& .MuiTableCell-root": {
+              textAlign: "right",
+              direction: "rtl",
+            },
             "& .MuiTableCell-head": {
               color: "primary.main",
               fontSize: "1.1rem",
-              borderBottom: "2px solid #00ff88",
-            },
-            "& .MuiTableRow-root:hover": {
-              bgcolor: "rgba(0, 255, 136, 0.05)",
+              borderBottom: "2px solid #fff",
             },
           }}
         >
@@ -141,20 +151,11 @@ export default function CustomersList() {
                     <VisibilityIcon />
                   </IconButton>
                 </TableCell>
-                <TableCell align="right" sx={{ color: "#00FF88" }}>
-                  {item.customer_name}
-                </TableCell>
-                <TableCell align="right" sx={{ color: "#00FF88" }}>
-                  {item.brand_name}
-                </TableCell>
-                <TableCell align="right" sx={{ color: "#00FF88" }}>
-                  {item.organization_type}
-                </TableCell>
+                <TableCell align="right">{item.customer_name}</TableCell>
+                <TableCell align="right">{item.brand_name}</TableCell>
+                <TableCell align="right">{item.organization_type}</TableCell>
 
-                <TableCell
-                  align="right"
-                  sx={{ direction: "rtl", color: "#00FF88" }}
-                >
+                <TableCell align="right" sx={{ direction: "rtl" }}>
                   {item.created_at
                     ? new Date(item.created_at).toLocaleDateString("fa-IR", {
                         year: "numeric",

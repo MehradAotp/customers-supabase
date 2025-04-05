@@ -14,10 +14,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { getCustomers } from "@/utils/api/customers";
-import {
-  CustomerFollowUpInsert,
-  CustomerFollowUpRow,
-} from "@/lib/supabaseTypes";
+import { CustomerFollowUpInsert } from "@/lib/supabaseTypes";
 
 interface CustomerFormProps {
   initialValues?: CustomerFollowUpInsert;
@@ -76,6 +73,7 @@ export default function CustomerFollowUpsForm({
           onSubmit={handleSubmit}
           className="form-container"
           suppressHydrationWarning
+          style={{ marginTop: "20px" }}
         >
           <FormSpy
             subscription={{ values: true }}
@@ -93,8 +91,14 @@ export default function CustomerFollowUpsForm({
               alignItems: "center",
               justifyContent: "center",
               display: "flex",
-              backgroundColor: "#fff",
-              padding: "20px",
+              padding: "40px",
+              marginTop: "40px",
+              maxWidth: "1200px",
+              marginX: "auto",
+              backgroundColor: "background.paper",
+              border: "1px solid #ddd",
+              borderRadius: "16px",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
             }}
           >
             <Grid2 size={12}>
@@ -241,13 +245,19 @@ export default function CustomerFollowUpsForm({
               </Grid2>
             </Grid2>
 
-            <Grid2 size={12} sx={{ direction: "rtl" }}>
+            <Grid2
+              size={12}
+              sx={{ direction: "rtl", textAlign: "center", mt: 4 }}
+            >
               <Button
                 type="submit"
                 variant="contained"
-                color="primary"
-                fullWidth
-                className="submit-button"
+                sx={{
+                  color: "#000",
+                  padding: "12px 40px",
+                  borderRadius: "8px",
+                  fontSize: "1.1rem",
+                }}
               >
                 {mode === "edit" ? "ذخیره تغییرات" : "ایجاد جدید"}
               </Button>

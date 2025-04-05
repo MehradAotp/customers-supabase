@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes";
 import { Geist } from "next/font/google";
 import DashboardLayout from "../layouts/DashboardLayout";
 import "./globals.css";
+import localFont from "next/font/local";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -12,22 +13,41 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: "مشتریان",
+  description: "مشتریان",
 };
 
 const geistSans = Geist({
   display: "swap",
   subsets: ["latin"],
 });
-
+const vazirmatn = localFont({
+  src: [
+    {
+      path: "../public/fonts/Vazirmatn[wght].woff2",
+      style: "normal",
+      weight: "normal",
+    },
+    {
+      path: "../public/fonts/Vazirmatn-Black.ttf",
+      style: "normal",
+      weight: "bold",
+    },
+  ],
+  display: "swap",
+});
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      dir="rtl"
+      lang="fa-IR"
+      className={vazirmatn.className}
+      suppressHydrationWarning
+    >
       <body suppressHydrationWarning className={geistSans.className}>
         <ThemeProvider
           attribute="class"

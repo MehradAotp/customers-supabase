@@ -4,26 +4,31 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import DescriptionIcon from "@mui/icons-material/Description";
 import LayersIcon from "@mui/icons-material/Layers";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Stack } from "@mui/material";
-import { extendTheme } from "@mui/material/styles";
 import { Navigation } from "@toolpad/core/AppProvider";
-import { DashboardLayout, ThemeSwitcher } from "@toolpad/core/DashboardLayout";
+import { DashboardLayout } from "@toolpad/core/DashboardLayout";
 import { NextAppProvider } from "@toolpad/core/nextjs";
 import * as React from "react";
+import { faIR } from "@mui/material/locale";
+import { Box, IconButton } from "@mui/material";
+import { CacheProvider } from "@emotion/react";
+import rtlCache from "@/lib/rtlCache";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import { LightMode, DarkMode } from "@mui/icons-material";
 
 const NAVIGATION: Navigation = [
   {
     kind: "header",
-    title: "Main items",
+    title: "موارد اصلی",
   },
   {
     segment: "",
-    title: "Dashboard",
+    title: "داشبورد",
     icon: <DashboardIcon />,
   },
   {
     segment: "orders",
-    title: "Orders",
+    title: "سفارشات",
     icon: <ShoppingCartIcon />,
   },
   {
@@ -31,29 +36,24 @@ const NAVIGATION: Navigation = [
   },
   {
     kind: "header",
-    title: "Analytics",
+    title: "تحلیل‌ها",
   },
   {
     segment: "reports",
-    title: "Reports",
+    title: "گزارشات",
     icon: <BarChartIcon />,
     children: [
       {
         segment: "sales",
-        title: "Sales",
+        title: "فروش",
         icon: <DescriptionIcon />,
       },
       {
         segment: "traffic",
-        title: "Traffic",
+        title: "ترافیک",
         icon: <DescriptionIcon />,
       },
     ],
-  },
-  {
-    segment: "integrations",
-    title: "Integrations",
-    icon: <LayersIcon />,
   },
   {
     segment: "customers/list",
@@ -69,19 +69,26 @@ const NAVIGATION: Navigation = [
   },
 ];
 
-const demoTheme = extendTheme({
-  colorSchemes: { light: true, dark: true },
-  colorSchemeSelector: "class",
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 600,
-      lg: 1200,
-      xl: 1536,
-    },
-  },
-});
+// const demoTheme = extendTheme(
+//   {
+//     direction: "rtl",
+//     typography: {
+//       fontFamily: "'Vazirmatn', sans-serif",
+//     },
+//     components: {
+//       MuiTypography: {
+//         defaultProps: { fontFamily: "'Vazirmatn', sans-serif" },
+//       },
+//       MuiTable: {
+//         styleOverrides: { root: { direction: "rtl" } },
+//       },
+//       MuiAppBar: {
+//         styleOverrides: { root: { left: "auto", right: 0 } },
+//       },
+//     },
+//   },
+//   faIR
+// );
 
 export interface DashboardLayoutBasicProps {
   children?: React.ReactNode;
@@ -92,25 +99,96 @@ export default function DashboardLayoutBasic({
   children,
   toolbarActions,
 }: DashboardLayoutBasicProps) {
+  const [mode, setMode] = React.useState<"light" | "dark">("dark");
+
+  const theme = React.useMemo(
+    () =>
+      createTheme(
+        {
+          direction: "rtl",
+          palette: {
+            mode,
+          },
+          typography: {
+            fontFamily: "'Vazirmatn', sans-serif",
+          },
+          components: {
+            MuiTableCell: {
+              styleOverrides: {
+                root: {
+                  textAlign: "right",
+                },
+              },
+            },
+            MuiTable: {
+              styleOverrides: {
+                root: {
+                  direction: "rtl",
+                },
+              },
+            },
+            MuiAppBar: {
+              styleOverrides: {
+                root: {
+                  left: "auto",
+                  right: 0,
+                },
+              },
+            },
+            MuiFormControl: {
+              styleOverrides: {
+                root: {
+                  direction: "rtl",
+                },
+              },
+            },
+            MuiInputBase: {
+              styleOverrides: {
+                root: {
+                  textAlign: "right",
+                },
+              },
+            },
+          },
+        },
+        faIR
+      ),
+    [mode]
+  );
+
   return (
-    <NextAppProvider navigation={NAVIGATION} theme={demoTheme}>
-      <DashboardLayout
-        branding={{
-          homeUrl: "/",
-          logo: "",
-          title: "مدیریت مشتریان",
-        }}
-        slots={{
-          toolbarActions: () => (
-            <>
-              {toolbarActions}
-              <ThemeSwitcher />
-            </>
-          ),
-        }}
-      >
-        {children}
-      </DashboardLayout>
-    </NextAppProvider>
+    <CacheProvider value={rtlCache}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <NextAppProvider navigation={NAVIGATION} theme={theme}>
+          <Box sx={{ order: 2, ml: 2 }}>
+            <DashboardLayout
+              branding={{
+                homeUrl: "/",
+                logo: "",
+                title: "مدیریت مشتریان",
+              }}
+              slots={{
+                toolbarActions: () => (
+                  <Box sx={{ display: "flex", gap: 2, ml: "auto" }}>
+                    <IconButton
+                      onClick={() =>
+                        setMode((prev) => (prev === "light" ? "dark" : "light"))
+                      }
+                      color="inherit"
+                    >
+                      {mode === "dark" ? <LightMode /> : <DarkMode />}
+                    </IconButton>
+                    {toolbarActions}
+                  </Box>
+                ),
+              }}
+            >
+              {children}
+            </DashboardLayout>
+          </Box>
+        </NextAppProvider>
+      </ThemeProvider>
+    </CacheProvider>
   );
 }

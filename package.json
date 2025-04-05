@@ -8,6 +8,7 @@
   "dependencies": {
     "@date-io/date-fns-jalali": "^3.2.0",
     "@date-io/jalaali": "^3.2.0",
+    "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^6.4.7",
@@ -40,6 +41,7 @@
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-final-form": "^6.5.9",
+    "stylis-plugin-rtl": "^2.1.1",
     "supabase": "2.19.7"
   },
   "devDependencies": {

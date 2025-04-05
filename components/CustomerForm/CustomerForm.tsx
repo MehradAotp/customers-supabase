@@ -67,6 +67,7 @@ export default function CustomerForm({
           onSubmit={handleSubmit}
           className="form-container"
           suppressHydrationWarning
+          style={{ marginTop: "20px" }}
         >
           <FormSpy
             subscription={{ values: true }}
@@ -81,8 +82,14 @@ export default function CustomerForm({
               alignItems: "center",
               justifyContent: "center",
               display: "flex",
-              backgroundColor: "#fff",
-              padding: "20px",
+              padding: "40px",
+              marginTop: "40px",
+              maxWidth: "1200px",
+              marginX: "auto",
+              backgroundColor: "background.paper",
+              border: "1px solid #ddd",
+              borderRadius: "16px",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
             }}
           >
             <Grid2 size={12}>
@@ -98,6 +105,12 @@ export default function CustomerForm({
                           suppressHydrationWarning
                           label="نحوه آشنایی"
                           variant="filled"
+                          sx={{
+                            "& .MuiSelect-select": {
+                              color: "text.primary",
+                              textAlign: "right",
+                            },
+                          }}
                         >
                           <MenuItem value="آشنایی 1" sx={{ direction: "rtl" }}>
                             آشنایی 1
@@ -122,7 +135,12 @@ export default function CustomerForm({
                         fullWidth
                         type="number"
                         required
-                        sx={{ backgroundColor: "#fff", direction: "rtl" }}
+                        sx={{
+                          direction: "rtl",
+                          "& .MuiInputBase-input": {
+                            color: "text.primary",
+                          },
+                        }}
                       />
                     )}
                   />
@@ -138,11 +156,11 @@ export default function CustomerForm({
                   >
                     <Typography
                       sx={{
-                        color: (theme) => theme.palette.common.black,
+                        color: (theme) => theme.palette.text.primary,
                         width: "100px",
                       }}
                     >
-                      نوع مشتری
+                      : نوع مشتری
                     </Typography>
                     <Field name="customer_type" type="radio">
                       {({ input }) => (
@@ -161,11 +179,18 @@ export default function CustomerForm({
                             value="حقیقی"
                             control={<Radio />}
                             label="حقیقی"
+                            sx={{
+                              color: "text.primary",
+                              "& .MuiFormControlLabel-label": {
+                                color: "text.primary",
+                              },
+                            }}
                           />
                           <FormControlLabel
                             value="حقوقی"
                             control={<Radio />}
                             label="حقوقی"
+                            sx={{ color: "inherit" }}
                           />
                         </RadioGroup>
                       )}
@@ -188,7 +213,12 @@ export default function CustomerForm({
                         variant="filled"
                         fullWidth
                         required
-                        sx={{ backgroundColor: "#fff", direction: "rtl" }}
+                        sx={{
+                          direction: "rtl",
+                          "& .MuiInputBase-input": {
+                            color: "text.primary",
+                          },
+                        }}
                       />
                     )}
                   />
@@ -205,12 +235,28 @@ export default function CustomerForm({
                         required
                         disabled={!hasReagent}
                         sx={{
-                          backgroundColor: "#fff",
                           direction: "rtl",
                           "& .MuiInputBase-root": {
-                            backgroundColor: hasReagent
-                              ? "#F0F0F0"
-                              : "lightgray",
+                            backgroundColor: (theme) =>
+                              hasReagent
+                                ? theme.palette.mode === "dark"
+                                  ? "rgba(255, 255, 255, 0.09)"
+                                  : "#f8fafc"
+                                : "rgba(0, 0, 0, 0.03)",
+                            color: (theme) =>
+                              hasReagent
+                                ? "text.primary"
+                                : theme.palette.mode === "dark"
+                                  ? "rgba(255, 255, 255, 0.38)"
+                                  : "rgba(0, 0, 0, 0.38)",
+                          },
+                          "& .MuiInputLabel-root": {
+                            color: (theme) =>
+                              hasReagent
+                                ? "text.primary"
+                                : theme.palette.mode === "dark"
+                                  ? "rgba(255, 255, 255, 0.38)"
+                                  : "rgba(0, 0, 0, 0.38)",
                           },
                         }}
                       />
@@ -229,6 +275,12 @@ export default function CustomerForm({
                           onChange={(e) =>
                             input.onChange(e.target.value === "true")
                           }
+                          sx={{
+                            "& .MuiSelect-select": {
+                              color: "text.primary",
+                              textAlign: "right",
+                            },
+                          }}
                         >
                           <MenuItem value="true">بله</MenuItem>
                           <MenuItem value="false">خیر</MenuItem>
@@ -253,7 +305,12 @@ export default function CustomerForm({
                         variant="filled"
                         fullWidth
                         required
-                        sx={{ backgroundColor: "#fff", direction: "rtl" }}
+                        sx={{
+                          direction: "rtl",
+                          "& .MuiInputBase-input": {
+                            color: "text.primary",
+                          },
+                        }}
                       />
                     )}
                   />
@@ -271,7 +328,12 @@ export default function CustomerForm({
                         fullWidth
                         type="number"
                         required
-                        sx={{ backgroundColor: "#fff", direction: "rtl" }}
+                        sx={{
+                          direction: "rtl",
+                          "& .MuiInputBase-input": {
+                            color: "text.primary",
+                          },
+                        }}
                       />
                     )}
                   />
@@ -287,6 +349,12 @@ export default function CustomerForm({
                           suppressHydrationWarning
                           label="نوع فعالیت"
                           variant="filled"
+                          sx={{
+                            "& .MuiSelect-select": {
+                              color: "text.primary",
+                              textAlign: "right",
+                            },
+                          }}
                         >
                           <MenuItem value="بازرگانی">بازرگانی</MenuItem>
                           <MenuItem value="خدمات">خدمات</MenuItem>
@@ -312,7 +380,12 @@ export default function CustomerForm({
                         fullWidth
                         type="number"
                         required
-                        sx={{ backgroundColor: "#fff", direction: "rtl" }}
+                        sx={{
+                          direction: "rtl",
+                          "& .MuiInputBase-input": {
+                            color: "text.primary",
+                          },
+                        }}
                       />
                     )}
                   />
@@ -329,7 +402,12 @@ export default function CustomerForm({
                         fullWidth
                         type="number"
                         required
-                        sx={{ backgroundColor: "#fff", direction: "rtl" }}
+                        sx={{
+                          direction: "rtl",
+                          "& .MuiInputBase-input": {
+                            color: "text.primary",
+                          },
+                        }}
                       />
                     )}
                   />
@@ -345,6 +423,12 @@ export default function CustomerForm({
                           suppressHydrationWarning
                           label="نام سازمان مادر"
                           variant="filled"
+                          sx={{
+                            "& .MuiSelect-select": {
+                              color: "text.primary",
+                              textAlign: "right",
+                            },
+                          }}
                         >
                           <MenuItem value="سازمان 1">سازمان 1</MenuItem>
                           <MenuItem value="سازمان 2">سازمان 2</MenuItem>
@@ -369,6 +453,12 @@ export default function CustomerForm({
                           suppressHydrationWarning
                           label="نوع سازمان"
                           variant="filled"
+                          sx={{
+                            "& .MuiSelect-select": {
+                              color: "text.primary",
+                              textAlign: "right",
+                            },
+                          }}
                         >
                           <MenuItem value="خصوصی">خصوصی</MenuItem>
                           <MenuItem value="عمومی">عمومی</MenuItem>
@@ -389,11 +479,11 @@ export default function CustomerForm({
                   >
                     <Typography
                       sx={{
-                        color: (theme) => theme.palette.common.black,
+                        color: (theme) => theme.palette.text.primary,
                         width: "100px",
                       }}
                     >
-                      مدل سازمان
+                      :مدل سازمان
                     </Typography>
                     <Field name="organization_model" type="radio">
                       {({ input }) => (
@@ -412,16 +502,34 @@ export default function CustomerForm({
                             value="مدل 1"
                             control={<Radio />}
                             label="مدل 1"
+                            sx={{
+                              color: "text.primary",
+                              "& .MuiFormControlLabel-label": {
+                                color: "text.primary",
+                              },
+                            }}
                           />
                           <FormControlLabel
                             value="مدل 2"
                             control={<Radio />}
                             label="مدل 2"
+                            sx={{
+                              color: "text.primary",
+                              "& .MuiFormControlLabel-label": {
+                                color: "text.primary",
+                              },
+                            }}
                           />
                           <FormControlLabel
                             value="مدل 3"
                             control={<Radio />}
                             label="مدل 3"
+                            sx={{
+                              color: "text.primary",
+                              "& .MuiFormControlLabel-label": {
+                                color: "text.primary",
+                              },
+                            }}
                           />
                         </RadioGroup>
                       )}
@@ -431,17 +539,18 @@ export default function CustomerForm({
               </Grid2>
             </Grid2>
 
-            <Grid2 size={12} sx={{ direction: "rtl" }}>
+            <Grid2
+              size={12}
+              sx={{ direction: "rtl", textAlign: "center", mt: 4 }}
+            >
               <Button
                 type="submit"
                 variant="contained"
-                color="primary"
-                fullWidth
                 sx={{
-                  backgroundColor: "#1976D2",
-                  padding: "12px",
+                  color: "#000",
+                  padding: "12px 40px",
                   borderRadius: "8px",
-                  fontSize: "16px",
+                  fontSize: "1.1rem",
                 }}
                 className="submit-button"
               >

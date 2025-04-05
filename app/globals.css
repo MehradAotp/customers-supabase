@@ -1,16 +1,9 @@
-@font-face {
-  font-family: "Vazirmatn";
-  src:
-    url("/public/fonts/Vazirmatn[wght].woff2") format("woff2"),
-    url("/public/fonts/Vazirmatn-Black.ttf") format("ttf");
-  font-weight: 100 800;
-  font-style: normal;
-}
-
 * {
   scrollbar-width: thin;
   scrollbar-color: #bbb #fff;
   font-family: "Vazirmatn";
+  direction: rtl !important;
+  text-align: right !important;
 }
 
 @tailwind base;
@@ -80,5 +73,38 @@
   }
   body {
     @apply bg-background text-foreground;
+    direction: rtl;
+    text-align: right;
   }
+}
+
+.MuiTable-root {
+  direction: rtl !important;
+}
+
+.MuiTableCell-root {
+  text-align: right !important;
+}
+
+.MuiPickersCalendarHeader-labelContainer {
+  direction: rtl;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.MuiInputBase-root {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+.MuiFormLabel-root {
+  right: 0 !important;
+  left: auto !important;
 }

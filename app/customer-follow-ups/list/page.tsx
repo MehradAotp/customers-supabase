@@ -1,11 +1,11 @@
 "use client";
+import ErrorMessage from "@/components/ErrorMessage/ErrorMessage";
+import Loading from "@/components/Loading/Loading";
 import { CustomerFollowUpRow } from "@/lib/supabaseTypes";
 import { createClient } from "@/utils/supabase/client";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import {
-  Box,
   Button,
-  CircularProgress,
   IconButton,
   Paper,
   Skeleton,
@@ -36,7 +36,7 @@ export default function CustomerFollowUpsList() {
         const {
           data: { user },
         } = await supabase.auth.getUser();
-        if (!user) throw new Error("Not authenticated");
+        if (!user) throw new Error("لطفا وارد شوید");
 
         const { data, error } = await supabase
           .from("customer_follow_ups")
@@ -72,30 +72,13 @@ export default function CustomerFollowUpsList() {
     fetchData();
   }, []);
 
-  if (loading)
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "60vh",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
+  if (loading) return <Loading />;
 
-  if (error)
-    return (
-      <Typography sx={{ textAlign: "center", mt: 4, color: "error.main" }}>
-        خطا: {error}
-      </Typography>
-    );
+  if (error) return <ErrorMessage message={`خطا: ${error}`} />;
 
   return (
-    <PageContainer title="لیست پیگیری‌ها">
-      <div>
+    <PageContainer title="لیست پیگیری‌ها" sx={{ direction: "rtl" }}>
+      <div dir="rtl" style={{ marginBottom: "1rem" }}>
         <Button
           component={Link}
           variant="contained"
@@ -108,9 +91,13 @@ export default function CustomerFollowUpsList() {
       <TableContainer
         component={Paper}
         sx={{
-          bgcolor: "rgba(0, 30, 60, 0.9)",
-          backdropFilter: "blur(16px)",
-          border: "1px solid rgba(255, 255, 255, 0.12)",
+          direction: "rtl",
+          "& .MuiTable-root": {
+            direction: "rtl",
+          },
+          "& .MuiTableCell-root": {
+            textAlign: "right",
+          },
         }}
       >
         <Table
@@ -118,10 +105,7 @@ export default function CustomerFollowUpsList() {
             "& .MuiTableCell-head": {
               color: "primary.main",
               fontSize: "1.1rem",
-              borderBottom: "2px solid #00ff88",
-            },
-            "& .MuiTableRow-root:hover": {
-              bgcolor: "rgba(0, 255, 136, 0.05)",
+              borderBottom: "2px solid #fff",
             },
           }}
         >
@@ -177,23 +161,15 @@ export default function CustomerFollowUpsList() {
                         <VisibilityIcon />
                       </IconButton>
                     </TableCell>
-                    <TableCell align="right" sx={{ color: "#00FF88" }}>
-                      {item.contract}
-                    </TableCell>
-                    <TableCell align="right" sx={{ color: "#00FF88" }}>
+                    <TableCell align="right">{item.contract}</TableCell>
+                    <TableCell align="right">
                       {customers.find((c) => c.id === item.customer_id)
                         ?.customer_name || "نامشخص"}
                     </TableCell>
-                    <TableCell align="right" sx={{ color: "#00FF88" }}>
-                      {item.interface_name}
-                    </TableCell>
-                    <TableCell align="right" sx={{ color: "#00FF88" }}>
-                      {item.contract_type}
-                    </TableCell>
-                    <TableCell align="right" sx={{ color: "#00FF88" }}>
-                      {item.tracking_type}
-                    </TableCell>
-                    <TableCell align="right" sx={{ color: "#00FF88" }}>
+                    <TableCell align="right">{item.interface_name}</TableCell>
+                    <TableCell align="right">{item.contract_type}</TableCell>
+                    <TableCell align="right">{item.tracking_type}</TableCell>
+                    <TableCell align="right">
                       {item.created_at
                         ? new Date(item.created_at).toLocaleDateString(
                             "fa-IR",
@@ -205,7 +181,7 @@ export default function CustomerFollowUpsList() {
                           )
                         : "---"}
                     </TableCell>
-                    <TableCell align="right" sx={{ color: "#00FF88" }}>
+                    <TableCell align="right">
                       {item.next_follow_up_date
                         ? new Date(item.next_follow_up_date).toLocaleDateString(
                             "fa-IR"

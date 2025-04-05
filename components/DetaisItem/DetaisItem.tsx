@@ -17,18 +17,13 @@ export const DetailItem = ({
       transition: "all 0.3s ease",
     }}
   >
-    <Typography
-      variant="subtitle2"
-      color="textSecondary"
-      sx={{ color: "#fff" }}
-    >
+    <Typography variant="subtitle2" color="textSecondary">
       {label}:
     </Typography>
     <Typography
       variant="body1"
       sx={{
         fontWeight: 500,
-        color: "#00ff88",
         mt: 1,
       }}
     >

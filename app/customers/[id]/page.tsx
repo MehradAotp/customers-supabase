@@ -116,10 +116,7 @@ export default function InstrumentDetails() {
   if (!data) return <p>{error || "داده‌ای یافت نشد!"}</p>;
 
   return (
-    <Container
-      maxWidth="lg"
-      sx={{ py: 4, direction: "rtl", backgroundColor: "#eee" }}
-    >
+    <Container maxWidth="lg" sx={{ py: 4, direction: "rtl" }}>
       <Button
         variant="contained"
         startIcon={<EditIcon />}
@@ -138,11 +135,7 @@ export default function InstrumentDetails() {
           label={
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
               اطلاعات اصلی
-              <Chip
-                label="1"
-                size="small"
-                sx={{ bgcolor: "primary.main", color: "white" }}
-              />
+              <Chip label="1" size="small" sx={{ bgcolor: "primary.main" }} />
             </Box>
           }
         />
@@ -165,21 +158,9 @@ export default function InstrumentDetails() {
           elevation={3}
           sx={{
             p: 4,
-            background: `linear-gradient(45deg, #001e3c 0%, #000a12 100%)`,
-            color: "#fff",
+
             position: "relative",
             overflow: "hidden",
-            "&:before": {
-              content: '""',
-              position: "absolute",
-              top: -50,
-              right: -50,
-              width: 120,
-              height: 120,
-              background:
-                "radial-gradient(circle, #00ff88 0%, transparent 70%)",
-              opacity: 0.1,
-            },
           }}
         >
           <Typography
@@ -189,16 +170,6 @@ export default function InstrumentDetails() {
               mb: 3,
               fontWeight: "bold",
               position: "relative",
-              "&:after": {
-                content: '""',
-                position: "absolute",
-                bottom: -10,
-                right: 0,
-                width: "60%",
-                height: "3px",
-                background:
-                  "linear-gradient(90deg, #00ff88 0%, transparent 100%)",
-              },
             }}
           >
             جزئیات ثبت شماره {data.id}
@@ -280,21 +251,16 @@ export default function InstrumentDetails() {
               alignItems: "center",
             }}
           >
-            <Typography
-              variant="caption"
-              color="textSecondary"
-              sx={{ color: "#fff" }}
-            >
+            <Typography variant="caption" color="textSecondary">
               تاریخ ثبت:{" "}
-              {data.created_at
-                ? new Date(data.created_at).toLocaleDateString("fa-IR", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })
-                : "---"}
+              {data.created_at &&
+                new Date(data.created_at).toLocaleDateString("fa-IR", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
             </Typography>
 
             <Button
@@ -323,21 +289,8 @@ export default function InstrumentDetails() {
             elevation={3}
             sx={{
               p: 4,
-              background: `linear-gradient(45deg, #001e3c 0%, #000a12 100%)`,
-              color: "#fff",
               position: "relative",
               overflow: "hidden",
-              "&:before": {
-                content: '""',
-                position: "absolute",
-                top: -50,
-                right: -50,
-                width: 120,
-                height: 120,
-                background:
-                  "radial-gradient(circle, #00ff88 0%, transparent 70%)",
-                opacity: 0.1,
-              },
             }}
           >
             <Typography
@@ -347,16 +300,6 @@ export default function InstrumentDetails() {
                 mb: 3,
                 fontWeight: "bold",
                 position: "relative",
-                "&:after": {
-                  content: '""',
-                  position: "absolute",
-                  bottom: -10,
-                  right: 0,
-                  width: "60%",
-                  height: "3px",
-                  background:
-                    "linear-gradient(90deg, #00ff88 0%, transparent 100%)",
-                },
               }}
             >
               لیست پیگیری‌ها ({followUps.length})
@@ -368,13 +311,7 @@ export default function InstrumentDetails() {
               </Box>
             ) : (
               <TableContainer>
-                <Table
-                  sx={{
-                    "& .MuiTableCell-root": {
-                      borderColor: "rgba(255, 255, 255, 0.12)",
-                    },
-                  }}
-                >
+                <Table>
                   <TableHead>
                     <TableRow>
                       <TableCell
@@ -401,14 +338,7 @@ export default function InstrumentDetails() {
                   </TableHead>
                   <TableBody>
                     {followUps.map((followUp) => (
-                      <TableRow
-                        key={followUp.id}
-                        sx={{
-                          "&:hover": {
-                            bgcolor: "rgba(0, 255, 136, 0.05)",
-                          },
-                        }}
-                      >
+                      <TableRow key={followUp.id}>
                         <TableCell>
                           <IconButton
                             component={Link}
@@ -418,19 +348,15 @@ export default function InstrumentDetails() {
                             <VisibilityIcon />
                           </IconButton>
                         </TableCell>
-                        <TableCell sx={{ color: "#fff" }}>
+                        <TableCell>
                           {followUp.next_follow_up_date
                             ? new Date(
                                 followUp.next_follow_up_date
                               ).toLocaleDateString("fa-IR")
                             : "---"}
                         </TableCell>
-                        <TableCell sx={{ color: "#fff" }}>
-                          {followUp.tracking_type}
-                        </TableCell>
-                        <TableCell sx={{ color: "#fff" }}>
-                          {followUp.follow_up_description}
-                        </TableCell>
+                        <TableCell>{followUp.tracking_type}</TableCell>
+                        <TableCell>{followUp.follow_up_description}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -443,7 +369,7 @@ export default function InstrumentDetails() {
               sx={{
                 mt: 3,
                 bgcolor: "primary.main",
-                color: "#000",
+
                 "&:hover": {
                   bgcolor: "primary.dark",
                   boxShadow: "0 4px 16px rgba(0, 255, 136, 0.3)",
