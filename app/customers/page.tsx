@@ -6,6 +6,7 @@ import "./styles.css";
 import CustomerForm from "@/components/CustomerForm/CustomerForm";
 import { Database, CustomerInsert } from "@/lib/supabaseTypes";
 import { User } from "@supabase/supabase-js";
+import Loading from "@/components/Loading/Loading";
 
 export default function Customers() {
   const supabase = createClient();
@@ -54,7 +55,7 @@ export default function Customers() {
   };
 
   if (!isMounted) return null;
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
 
   if (!user) return <p>You need to log in to access this form.</p>;
 

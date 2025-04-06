@@ -28,6 +28,8 @@ import { DetailItem } from "@/components/DetaisItem/DetaisItem";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Customer, CustomerFollowUpRow } from "@/lib/supabaseTypes";
 import EditIcon from "@mui/icons-material/Edit";
+import Loading from "@/components/Loading/Loading";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function InstrumentDetails() {
   const { id } = useParams();
@@ -112,20 +114,39 @@ export default function InstrumentDetails() {
     }
   };
 
-  if (loading) return <p>در حال بارگذاری...</p>;
+  if (loading) return <Loading />;
   if (!data) return <p>{error || "داده‌ای یافت نشد!"}</p>;
 
   return (
     <Container maxWidth="lg" sx={{ py: 4, direction: "rtl" }}>
-      <Button
-        variant="contained"
-        startIcon={<EditIcon />}
-        component={Link}
-        href={`/customers/${data.id}/edit`}
-        sx={{ mb: 2 }}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          mb: 3,
+        }}
       >
-        ویرایش اطلاعات
-      </Button>
+        <Button
+          component={Link}
+          href="/customers/list"
+          variant="contained"
+          color="primary"
+          startIcon={<ArrowBackIcon />}
+          sx={{ borderRadius: 2 }}
+        >
+          بازگشت به لیست
+        </Button>
+        <Button
+          component={Link}
+          href={`/customers/${id}/edit`}
+          variant="contained"
+          color="warning"
+          startIcon={<EditIcon />}
+          sx={{ borderRadius: 2 }}
+        >
+          ویرایش
+        </Button>
+      </Box>
       <Tabs
         value={activeTab}
         onChange={(_, newValue) => setActiveTab(newValue)}
@@ -269,9 +290,13 @@ export default function InstrumentDetails() {
               startIcon={<DeleteIcon />}
               sx={{
                 mt: 3,
+                borderRadius: 2,
+                px: 4,
+                py: 1.5,
                 bgcolor: "#d32f2f",
                 "&:hover": {
                   bgcolor: "#b71c1c",
+                  transform: "translateY(-2px)",
                   boxShadow: "0 4px 16px rgba(255, 0, 0, 0.3)",
                 },
               }}

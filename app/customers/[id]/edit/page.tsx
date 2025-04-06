@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
 import CustomerForm from "@/components/CustomerForm/CustomerForm";
 import { Customer, CustomerInsert } from "@/lib/supabaseTypes";
+import Loading from "@/components/Loading/Loading";
 
 export default function EditInstrument() {
   const { id } = useParams();
@@ -167,7 +168,7 @@ export default function EditInstrument() {
     }
   };
 
-  if (loading) return <p>در حال بارگذاری...</p>;
+  if (loading) return <Loading />;
   if (!initialValues) return <p>داده‌ای یافت نشد!</p>;
 
   return (

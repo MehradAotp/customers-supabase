@@ -5,6 +5,7 @@ import { createClient } from "@/utils/supabase/client";
 import CustomerFollowUpsForm from "@/components/CustomerFollowUps/CustomerFollowUps";
 import { User } from "@supabase/supabase-js";
 import { CustomerFollowUpInsert } from "@/lib/supabaseTypes";
+import Loading from "@/components/Loading/Loading";
 
 export default function CustomerFollowUps() {
   const supabase = createClient();
@@ -49,7 +50,7 @@ export default function CustomerFollowUps() {
   };
 
   if (!isMounted) return null;
-  if (loading) return <p>در حال بارگذاری...</p>;
+  if (loading) return <Loading />;
 
   if (!user) return <p>لطفا ابتدا وارد شوید.</p>;
 

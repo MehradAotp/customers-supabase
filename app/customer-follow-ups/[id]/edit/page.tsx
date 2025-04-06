@@ -6,8 +6,8 @@ import CustomerFollowUpsForm from "@/components/CustomerFollowUps/CustomerFollow
 import {
   CustomerFollowUpInsert,
   CustomerFollowUpRow,
-  Database,
 } from "@/lib/supabaseTypes";
+import Loading from "@/components/Loading/Loading";
 
 export default function EditFollowUp() {
   const { id } = useParams();
@@ -59,7 +59,7 @@ export default function EditFollowUp() {
     }
   };
 
-  if (loading) return <p>در حال بارگذاری...</p>;
+  if (loading) return <Loading />;
   if (!initialValues) return <p>داده‌ای یافت نشد!</p>;
 
   return (

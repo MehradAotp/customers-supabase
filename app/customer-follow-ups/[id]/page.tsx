@@ -10,12 +10,14 @@ import {
   Box,
   Grid2,
   CircularProgress,
+  Divider,
 } from "@mui/material";
 import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { CustomerFollowUpRow } from "@/lib/supabaseTypes";
+import Loading from "@/components/Loading/Loading";
 
 export default function FollowUpDetails() {
   const { id } = useParams();
@@ -75,19 +77,7 @@ export default function FollowUpDetails() {
     }
   };
 
-  if (loading)
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "60vh",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
+  if (loading) return <Loading />;
 
   if (!data)
     return (
@@ -98,91 +88,194 @@ export default function FollowUpDetails() {
 
   return (
     <Container maxWidth="md" sx={{ py: 4, direction: "rtl" }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 3 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          mb: 3,
+        }}
+      >
         <Button
           component={Link}
           href="/customer-follow-ups/list"
           variant="contained"
           color="primary"
           startIcon={<ArrowBackIcon />}
+          sx={{ borderRadius: 2 }}
         >
           بازگشت به لیست
         </Button>
-
         <Button
           component={Link}
           href={`/customer-follow-ups/${id}/edit`}
           variant="contained"
           color="warning"
           startIcon={<EditIcon />}
+          sx={{ borderRadius: 2 }}
         >
           ویرایش
         </Button>
       </Box>
 
-      <Paper elevation={4} sx={{ p: 4, borderRadius: 3 }}>
-        <Typography variant="h4" gutterBottom fontWeight="bold">
+      <Paper
+        elevation={3}
+        sx={{
+          p: 4,
+
+          borderRadius: 3,
+          position: "relative",
+          overflow: "hidden",
+          boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        <Typography
+          variant="h4"
+          sx={{
+            color: "primary.main",
+            mb: 3,
+            fontWeight: "bold",
+            position: "relative",
+            "&:after": {
+              content: '""',
+              position: "absolute",
+              bottom: -8,
+              left: 0,
+              width: "60px",
+              height: "3px",
+              bgcolor: "primary.main",
+            },
+          }}
+        >
           جزئیات پیگیری شماره {data.id}
         </Typography>
 
-        <Grid2 container spacing={2} sx={{ mt: 2 }}>
-          <Grid2 size={6}>
-            <Typography>
-              <strong>قرارداد:</strong> {data.contract}
+        <Grid2
+          container
+          spacing={3}
+          sx={{
+            "& .MuiGrid-root": {
+              padding: "16px",
+              borderRadius: "8px",
+              background: "rgba(255, 255, 255, 0.7)",
+              transition: "all 0.3s ease",
+              "&:hover": {
+                background: "rgba(255, 255, 255, 0.9)",
+                transform: "translateX(5px)",
+                boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+              },
+            },
+          }}
+        >
+          <Grid2 size={12}>
+            <Typography variant="h5" color="primary" gutterBottom>
+              اطلاعات قرارداد
             </Typography>
+            <Grid2 container spacing={2}>
+              <Grid2 size={6}>
+                <Typography>
+                  <strong>قرارداد:</strong> {data.contract}
+                </Typography>
+              </Grid2>
+              <Grid2 size={6}>
+                <Typography>
+                  <strong>نوع قرارداد:</strong> {data.contract_type}
+                </Typography>
+              </Grid2>
+            </Grid2>
           </Grid2>
-          <Grid2 size={6}>
-            <Typography>
-              <strong>نوع قرارداد:</strong> {data.contract_type}
+
+          <Grid2 size={12}>
+            <Typography variant="h5" color="primary" gutterBottom>
+              جزئیات پیگیری
             </Typography>
+            <Grid2 container spacing={2}>
+              <Grid2 size={6}>
+                <Typography>
+                  <strong>شرح پیگیری:</strong> {data.follow_up_description}
+                </Typography>
+              </Grid2>
+              <Grid2 size={6}>
+                <Typography>
+                  <strong>مشتری:</strong> {customerName}
+                </Typography>
+              </Grid2>
+              <Grid2 size={6}>
+                <Typography>
+                  <strong>نام رابط:</strong> {data.interface_name}
+                </Typography>
+              </Grid2>
+              <Grid2 size={6}>
+                <Typography>
+                  <strong>نوع پیگیری:</strong> {data.tracking_type}
+                </Typography>
+              </Grid2>
+            </Grid2>
           </Grid2>
-          <Grid2 size={6}>
-            <Typography>
-              <strong>شرح پیگیری:</strong> {data.follow_up_description}
+
+          <Grid2 size={12}>
+            <Typography variant="h5" color="primary" gutterBottom>
+              زمان‌بندی
             </Typography>
-          </Grid2>
-          <Grid2 size={6}>
-            <Typography>
-              <strong>مشتری:</strong> {customerName}
-            </Typography>
-          </Grid2>
-          <Grid2 size={6}>
-            <Typography>
-              <strong>نام رابط:</strong> {data.interface_name}
-            </Typography>
-          </Grid2>
-          <Grid2 size={6}>
-            <Typography>
-              <strong>نوع پیگیری:</strong> {data.tracking_type}
-            </Typography>
-          </Grid2>
-          <Grid2 size={6}>
-            <Typography>
-              <strong>تاریخ اقدام:</strong>{" "}
-              {data.action_date
-                ? new Date(data.action_date).toLocaleDateString("fa-IR")
-                : "---"}
-            </Typography>
-          </Grid2>
-          <Grid2 size={6}>
-            <Typography>
-              <strong>تاریخ پیگیری بعدی:</strong>{" "}
-              {data.next_follow_up_date
-                ? new Date(data.next_follow_up_date).toLocaleDateString("fa-IR")
-                : "---"}
-            </Typography>
+            <Grid2 container spacing={2}>
+              <Grid2 size={6}>
+                <Typography>
+                  <strong>تاریخ اقدام:</strong>{" "}
+                  {data.action_date
+                    ? new Date(data.action_date).toLocaleDateString("fa-IR")
+                    : "---"}
+                </Typography>
+              </Grid2>
+              <Grid2 size={6}>
+                <Typography>
+                  <strong>تاریخ پیگیری بعدی:</strong>{" "}
+                  {data.next_follow_up_date
+                    ? new Date(data.next_follow_up_date).toLocaleDateString(
+                        "fa-IR"
+                      )
+                    : "---"}
+                </Typography>
+              </Grid2>
+            </Grid2>
           </Grid2>
         </Grid2>
 
-        <Button
-          variant="contained"
-          color="error"
-          startIcon={<DeleteIcon />}
-          sx={{ mt: 4, width: "100%", marginTop: "40px" }}
-          onClick={handleDelete}
+        <Divider sx={{ my: 3 }} />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mt: 4,
+          }}
         >
-          حذف این مورد
-        </Button>
+          <Typography variant="caption" color="textSecondary">
+            تاریخ ایجاد:{" "}
+            {data.created_at &&
+              new Date(data.created_at).toLocaleDateString("fa-IR", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+          </Typography>
+
+          <Button
+            variant="contained"
+            color="error"
+            startIcon={<DeleteIcon />}
+            sx={{
+              bgcolor: "#d32f2f",
+              "&:hover": {
+                bgcolor: "#b71c1c",
+                boxShadow: "0 4px 16px rgba(255, 0, 0, 0.3)",
+              },
+            }}
+            onClick={handleDelete}
+          >
+            حذف این مورد
+          </Button>
+        </Box>
       </Paper>
     </Container>
   );
