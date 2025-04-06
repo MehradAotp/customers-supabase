@@ -18,6 +18,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { CustomerFollowUpRow } from "@/lib/supabaseTypes";
 import Loading from "@/components/Loading/Loading";
+import { DetailItem } from "@/components/DetaisItem/DetaisItem";
 
 export default function FollowUpDetails() {
   const { id } = useParams();
@@ -172,14 +173,10 @@ export default function FollowUpDetails() {
             </Typography>
             <Grid2 container spacing={2}>
               <Grid2 size={6}>
-                <Typography>
-                  <strong>قرارداد:</strong> {data.contract}
-                </Typography>
+                <DetailItem label="قرارداد" value={data.contract} />
               </Grid2>
               <Grid2 size={6}>
-                <Typography>
-                  <strong>نوع قرارداد:</strong> {data.contract_type}
-                </Typography>
+                <DetailItem label="نوع قرارداد" value={data.contract_type} />
               </Grid2>
             </Grid2>
           </Grid2>
@@ -190,24 +187,19 @@ export default function FollowUpDetails() {
             </Typography>
             <Grid2 container spacing={2}>
               <Grid2 size={6}>
-                <Typography>
-                  <strong>شرح پیگیری:</strong> {data.follow_up_description}
-                </Typography>
+                <DetailItem
+                  label="شرح پیگیری"
+                  value={data.follow_up_description}
+                />
               </Grid2>
               <Grid2 size={6}>
-                <Typography>
-                  <strong>مشتری:</strong> {customerName}
-                </Typography>
+                <DetailItem label="مشتری" value={customerName} />
               </Grid2>
               <Grid2 size={6}>
-                <Typography>
-                  <strong>نام رابط:</strong> {data.interface_name}
-                </Typography>
+                <DetailItem label="نام رابط" value={data.interface_name} />
               </Grid2>
               <Grid2 size={6}>
-                <Typography>
-                  <strong>نوع پیگیری:</strong> {data.tracking_type}
-                </Typography>
+                <DetailItem label="نوع پیگیری" value={data.tracking_type} />
               </Grid2>
             </Grid2>
           </Grid2>
@@ -218,22 +210,26 @@ export default function FollowUpDetails() {
             </Typography>
             <Grid2 container spacing={2}>
               <Grid2 size={6}>
-                <Typography>
-                  <strong>تاریخ اقدام:</strong>{" "}
-                  {data.action_date
-                    ? new Date(data.action_date).toLocaleDateString("fa-IR")
-                    : "---"}
-                </Typography>
+                <DetailItem
+                  label="تاریخ اقدام"
+                  value={
+                    data.action_date
+                      ? new Date(data.action_date).toLocaleDateString("fa-IR")
+                      : "---"
+                  }
+                />
               </Grid2>
               <Grid2 size={6}>
-                <Typography>
-                  <strong>تاریخ پیگیری بعدی:</strong>{" "}
-                  {data.next_follow_up_date
-                    ? new Date(data.next_follow_up_date).toLocaleDateString(
-                        "fa-IR"
-                      )
-                    : "---"}
-                </Typography>
+                <DetailItem
+                  label="تاریخ پیگیری بعدی"
+                  value={
+                    data.next_follow_up_date
+                      ? new Date(data.next_follow_up_date).toLocaleDateString(
+                          "fa-IR"
+                        )
+                      : "---"
+                  }
+                />
               </Grid2>
             </Grid2>
           </Grid2>
